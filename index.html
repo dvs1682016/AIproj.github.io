@@ -15,6 +15,7 @@
       --accent2:#60a5fa;
       --danger:#ef4444;
       --border:rgba(255,255,255,.12);
+      --warn:#f59e0b;
     }
     *{box-sizing:border-box}
     body{
@@ -26,7 +27,7 @@
       color:var(--text);
       padding:18px;
     }
-    .wrap{max-width:920px;margin:0 auto}
+    .wrap{max-width:860px;margin:0 auto}
     header{
       display:flex;align-items:center;justify-content:space-between;gap:12px;
       margin-bottom:14px;
@@ -49,18 +50,8 @@
       margin-bottom:14px;
     }
 
-    .dateRow{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      align-items:center;
-    }
-    .dateControls{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
-    }
-    .dateBox{
-      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-    }
+    .dateRow{display:grid;grid-template-columns: 1fr;gap:10px;align-items:center;}
+    .dateControls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;}
     .btnRow{display:flex;gap:10px;flex-wrap:wrap}
     button{
       appearance:none;border:1px solid var(--border);
@@ -72,19 +63,11 @@
       min-height:48px;
     }
     button:active{transform:scale(.99)}
-    button.primary{
-      border-color: rgba(34,197,94,.45);
-      background: rgba(34,197,94,.16);
-    }
-    button.ghost{
-      border-color: rgba(96,165,250,.45);
-      background: rgba(96,165,250,.14);
-    }
-    button.danger{
-      border-color: rgba(239,68,68,.5);
-      background: rgba(239,68,68,.14);
-    }
+    button.primary{border-color: rgba(34,197,94,.45);background: rgba(34,197,94,.16);}
+    button.ghost{border-color: rgba(96,165,250,.45);background: rgba(96,165,250,.14);}
+    button.danger{border-color: rgba(239,68,68,.5);background: rgba(239,68,68,.14);}
 
+    .dateBox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
     input[type="date"]{
       background:rgba(255,255,255,.06);
       border:1px solid var(--border);
@@ -96,130 +79,95 @@
     }
     .hint{color:var(--muted);font-size:13px;line-height:1.5}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media (min-width: 720px){
-      .grid{grid-template-columns: 1fr 1fr}
-    }
+    .grid{display:grid;grid-template-columns: 1fr;gap:12px;}
+    @media (min-width: 720px){ .grid{grid-template-columns: 1fr 1fr} }
 
     .metric{
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--border);
+      padding:14px;border-radius:14px;border:1px solid var(--border);
       background:rgba(255,255,255,.03);
     }
     .metric h2{
-      margin:0 0 8px 0;
-      font-size:18px;
+      margin:0 0 8px 0;font-size:18px;
       display:flex;align-items:baseline;justify-content:space-between;gap:10px;
     }
-    .value{
-      font-size:26px;
-      font-weight:800;
-      letter-spacing:.5px;
-    }
+    .value{font-size:26px;font-weight:800;letter-spacing:.5px;}
     .unit{font-size:13px;color:var(--muted);font-weight:600;margin-left:6px}
     .rangeRow{display:flex;align-items:center;gap:10px;margin-top:8px}
-    .minmax{font-size:12px;color:var(--muted);min-width:58px;text-align:center}
-    input[type="range"]{
-      width:100%;
-      height:26px;
-      accent-color: var(--accent2);
-    }
+    .minmax{font-size:12px;color:var(--muted);min-width:70px;text-align:center}
+    input[type="range"]{width:100%;height:26px;accent-color: var(--accent2);}
 
     textarea{
-      width:100%;
-      min-height:110px;
-      resize:vertical;
+      width:100%;min-height:110px;resize:vertical;
       background:rgba(255,255,255,.06);
       border:1px solid var(--border);
       color:var(--text);
-      padding:12px 14px;
-      border-radius:12px;
-      font-size:16px;
-      line-height:1.6;
-      outline:none;
+      padding:12px 14px;border-radius:12px;
+      font-size:16px;line-height:1.6;outline:none;
     }
     textarea::placeholder{color:rgba(156,163,175,.75)}
-    .footerRow{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between
-    }
-    .status{
-      color:var(--muted);
-      font-size:13px;
-    }
+    .footerRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .status{color:var(--muted);font-size:13px;}
 
-    /* 歷史清單 */
-    .historyTop{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    /* 最近7天 + 統計 */
+    .listHeader{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;
       margin-bottom:10px;
     }
-    .historyControls{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-    }
-    .list{
+    .listHeader h2{margin:0;font-size:18px}
+    .smallMuted{color:var(--muted);font-size:13px}
+
+    .stats{display:grid;grid-template-columns: 1fr;gap:10px;margin-bottom:12px;}
+    @media (min-width: 720px){ .stats{grid-template-columns: 1fr 1fr 1fr 1fr} }
+
+    .statCard{
       border:1px solid var(--border);
-      border-radius:14px;
-      overflow:hidden;
       background:rgba(255,255,255,.03);
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 120px 1fr 1fr 1fr 110px;
-      gap:10px;
+      border-radius:14px;
       padding:12px 12px;
-      border-top:1px solid rgba(255,255,255,.08);
-      align-items:center;
-      font-size:15px;
+    }
+    .statTitle{font-size:13px;color:var(--muted);margin-bottom:6px;}
+    .statBig{font-size:20px;font-weight:900;letter-spacing:.3px;}
+    .statSmall{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.4;}
+    .warnText{color: rgba(245,158,11,.95); font-weight:900;}
+    .okText{color: rgba(34,197,94,.95); font-weight:900;}
+
+    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03);}
+    .row{
+      display:grid;grid-template-columns: 112px 1fr;gap:10px;
+      padding:12px 12px;border-top:1px solid var(--border);cursor:pointer;
     }
     .row:first-child{border-top:none}
-    .row.head{
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:13px;
+    .row:hover{background:rgba(255,255,255,.04)}
+    .dateCell{font-weight:800;letter-spacing:.3px;}
+    .badge{
+      display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;
+      border:1px solid var(--border);color:var(--muted);margin-left:6px;
+      background:rgba(255,255,255,.03);vertical-align:middle;
     }
-    .row .mono{font-variant-numeric: tabular-nums}
-    .row button{
-      min-height:40px;
-      padding:8px 10px;
-      font-size:14px;
-      border-radius:10px;
+    .badgeHigh{
+      display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(245,158,11,.45);
+      color: rgba(245,158,11,.95);
+      margin-left:6px;background: rgba(245,158,11,.12);
+      vertical-align:middle;
     }
-    .empty{
-      padding:14px;
-      color:var(--muted);
-      font-size:14px;
+    .mainCell{display:flex;flex-direction:column;gap:6px;}
+    .numbersLine{font-size:15px;}
+    .numbersLine b{font-size:16px}
+    .noteLine{
+      font-size:13px;color:var(--muted);line-height:1.4;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
     }
-    @media (max-width: 860px){
-      .row{grid-template-columns: 110px 1fr 1fr 1fr 86px}
-    }
-    @media (max-width: 720px){
-      .row{grid-template-columns: 1fr; gap:6px}
-      .row.head{display:none}
-    }
+    .empty{padding:14px;color:var(--muted);font-size:14px;}
 
     .toast{
-      position:fixed;
-      left:50%; bottom:18px;
-      transform:translateX(-50%);
-      background: rgba(17,24,39,.95);
-      border:1px solid var(--border);
-      padding:10px 12px;
-      border-radius:999px;
-      color:var(--text);
-      font-size:14px;
+      position:fixed;left:50%; bottom:18px;transform:translateX(-50%);
+      background: rgba(17,24,39,.95);border:1px solid var(--border);
+      padding:10px 12px;border-radius:999px;color:var(--text);font-size:14px;
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .18s ease, transform .18s ease;
+      opacity:0;pointer-events:none;transition: opacity .18s ease, transform .18s ease;
     }
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(-2px);
-    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-2px);}
   </style>
 </head>
 
@@ -230,7 +178,7 @@
         <h1>安心日常記錄（示範版）</h1>
         <div class="sub">手機友善・單一 HTML・自動儲存（本機）</div>
       </div>
-      <div class="pill" id="storagePill">儲存：本機（localStorage）</div>
+      <div class="pill">儲存：本機（localStorage）</div>
     </header>
 
     <section class="card">
@@ -302,6 +250,43 @@
       </div>
     </section>
 
+    <!-- 最近 7 天 -->
+    <section class="card">
+      <div class="listHeader">
+        <h2>最近 7 天紀錄</h2>
+        <div class="smallMuted">點一下某天，可直接切換查看／修改</div>
+      </div>
+
+      <div class="stats">
+        <div class="statCard">
+          <div class="statTitle">填寫狀況</div>
+          <div class="statBig"><span id="filledDays">0</span> / 7 天</div>
+          <div class="statSmall" id="rangeText">範圍：—</div>
+        </div>
+        <div class="statCard">
+          <div class="statTitle">7 天平均</div>
+          <div class="statBig" id="avgText">—</div>
+          <div class="statSmall">只計算有填寫的日子</div>
+        </div>
+        <div class="statCard">
+          <div class="statTitle">最高 / 最低</div>
+          <div class="statBig" id="hiLoText">—</div>
+          <div class="statSmall">舒張／收縮／心跳</div>
+        </div>
+
+        <!-- ✅ 新增：偏高天數 -->
+        <div class="statCard" id="highCard">
+          <div class="statTitle">本週偏高天數</div>
+          <div class="statBig" id="highDaysText">—</div>
+          <div class="statSmall" id="highHint">規則：收縮 ≥ 140 或 舒張 ≥ 90</div>
+        </div>
+      </div>
+
+      <div class="list" id="weekList">
+        <div class="empty">尚無紀錄（先從今天開始輸入吧 🙂）</div>
+      </div>
+    </section>
+
     <section class="card">
       <div class="footerRow">
         <div class="btnRow">
@@ -311,46 +296,6 @@
         <div class="status" id="statusText">尚未儲存</div>
       </div>
     </section>
-
-    <!-- ✅ 新增：歷史紀錄 -->
-    <section class="card">
-      <div class="historyTop">
-        <div>
-          <strong style="font-size:16px;">歷史紀錄</strong>
-          <div class="hint" id="historyHint">預設顯示最近 7 天（可用區間查詢）</div>
-        </div>
-
-        <div class="historyControls">
-          <button class="ghost" id="btnLast7">最近7天</button>
-          <button class="ghost" id="btnLast30">最近30天</button>
-        </div>
-      </div>
-
-      <div class="historyControls" style="justify-content:flex-start; margin-bottom:10px;">
-        <div class="dateBox">
-          <span class="hint">起日</span>
-          <input id="fromDate" type="date" />
-        </div>
-        <div class="dateBox">
-          <span class="hint">迄日</span>
-          <input id="toDate" type="date" />
-        </div>
-        <button class="primary" id="btnQuery">查詢</button>
-        <button id="btnResetQuery">重設</button>
-      </div>
-
-      <div class="list" id="historyList">
-        <div class="row head">
-          <div>日期</div>
-          <div>舒張壓</div>
-          <div>收縮壓</div>
-          <div>心跳</div>
-          <div>載入</div>
-        </div>
-        <div class="empty" id="emptyText">尚無資料</div>
-      </div>
-      <div class="hint" style="margin-top:10px;">提示：點「載入」可直接回到那一天修改。</div>
-    </section>
   </div>
 
   <div class="toast" id="toast">已儲存 ✅</div>
@@ -359,6 +304,10 @@
     const STORAGE_KEY = "anxin_daily_records_v1";
 
     const DEFAULTS = { dia: 120, sys: 70, hr: 70, note: "" };
+
+    // 偏高門檻（A）
+    const HIGH_SYS = 140;
+    const HIGH_DIA = 90;
 
     const el = {
       dateInput: document.getElementById("dateInput"),
@@ -380,16 +329,16 @@
       statusText: document.getElementById("statusText"),
       toast: document.getElementById("toast"),
 
-      // history
-      btnLast7: document.getElementById("btnLast7"),
-      btnLast30: document.getElementById("btnLast30"),
-      fromDate: document.getElementById("fromDate"),
-      toDate: document.getElementById("toDate"),
-      btnQuery: document.getElementById("btnQuery"),
-      btnResetQuery: document.getElementById("btnResetQuery"),
-      historyList: document.getElementById("historyList"),
-      emptyText: document.getElementById("emptyText"),
-      historyHint: document.getElementById("historyHint"),
+      weekList: document.getElementById("weekList"),
+
+      filledDays: document.getElementById("filledDays"),
+      rangeText: document.getElementById("rangeText"),
+      avgText: document.getElementById("avgText"),
+      hiLoText: document.getElementById("hiLoText"),
+
+      highCard: document.getElementById("highCard"),
+      highDaysText: document.getElementById("highDaysText"),
+      highHint: document.getElementById("highHint"),
     };
 
     let saveTimer = null;
@@ -397,23 +346,38 @@
 
     function pad2(n){ return String(n).padStart(2, "0"); }
     function toISODate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
-    function fromISODate(s){ const [y,m,dd]=s.split("-").map(Number); return new Date(y, m-1, dd); }
-    function addDays(iso, delta){ const d=fromISODate(iso); d.setDate(d.getDate()+delta); return toISODate(d); }
+    function fromISODate(s){
+      const [y,m,dd] = s.split("-").map(Number);
+      return new Date(y, m-1, dd);
+    }
+    function addDays(isoDateStr, delta){
+      const d = fromISODate(isoDateStr);
+      d.setDate(d.getDate() + delta);
+      return toISODate(d);
+    }
 
     function loadAll(){
       try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
       catch{ return {}; }
     }
     function saveAll(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
-    function getRecord(dateStr){ const all=loadAll(); return all[dateStr] || null; }
-    function setRecord(dateStr, record){ const all=loadAll(); all[dateStr]=record; saveAll(all); }
-    function deleteRecord(dateStr){ const all=loadAll(); delete all[dateStr]; saveAll(all); }
+    function getRecord(dateStr){ return loadAll()[dateStr] || null; }
+
+    function setRecord(dateStr, record){
+      const all = loadAll();
+      all[dateStr] = record;
+      saveAll(all);
+    }
+    function deleteRecord(dateStr){
+      const all = loadAll();
+      delete all[dateStr];
+      saveAll(all);
+    }
 
     function setDirty(flag){
       dirty = flag;
       el.statusText.textContent = flag ? "尚未儲存（會自動儲存）" : "已儲存";
     }
-
     function showToast(text="已儲存 ✅"){
       el.toast.textContent = text;
       el.toast.classList.add("show");
@@ -457,115 +421,153 @@
 
       setRecord(dateStr, readFromUI());
       setDirty(false);
-      showToast(isAuto ? "自動儲存 ✅" : "已儲存 ✅");
 
-      // 儲存後刷新歷史清單（維持目前查詢條件）
-      refreshHistoryKeepCurrentQuery();
+      renderWeekList();
+      showToast(isAuto ? "自動儲存 ✅" : "已儲存 ✅");
     }
 
     function switchDate(newDateStr){
       if (dirty) saveNow(true);
 
       el.dateInput.value = newDateStr;
-      const rec = getRecord(newDateStr);
-      applyToUI(rec);
+      applyToUI(getRecord(newDateStr));
       setDirty(false);
-      el.statusText.textContent = rec ? "已載入（可直接修改）" : "新的一天（尚未有紀錄）";
+
+      el.statusText.textContent = getRecord(newDateStr) ? "已載入（可直接修改）" : "新的一天（尚未有紀錄）";
+      renderWeekList();
     }
 
-    // -------- 歷史清單 --------
-    let currentQuery = { mode: "last7" }; // 預設最近 7 天
-
-    function clearHistoryRows(){
-      // 保留表頭、emptyText
-      [...el.historyList.querySelectorAll(".row.data")].forEach(n => n.remove());
+    // ------- 最近 7 天列表 + 統計 + 偏高 -------
+    function fmtMD(dateStr){
+      const d = fromISODate(dateStr);
+      return `${pad2(d.getMonth()+1)}/${pad2(d.getDate())}`;
+    }
+    function isToday(dateStr){ return dateStr === toISODate(new Date()); }
+    function escapeHTML(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+    function avg(nums){
+      if (!nums.length) return null;
+      const s = nums.reduce((a,b)=>a+b,0);
+      return Math.round(s / nums.length);
+    }
+    function minmax(nums){
+      if (!nums.length) return null;
+      return { min: Math.min(...nums), max: Math.max(...nums) };
+    }
+    function isHigh(rec){
+      const s = Number(rec?.sys);
+      const d = Number(rec?.dia);
+      return (Number.isFinite(s) && s >= HIGH_SYS) || (Number.isFinite(d) && d >= HIGH_DIA);
     }
 
-    function buildHistoryRow(dateStr, rec){
-      const row = document.createElement("div");
-      row.className = "row data";
-      row.innerHTML = `
-        <div class="mono"><strong>${dateStr}</strong></div>
-        <div class="mono">舒張壓：<strong>${rec?.dia ?? "-"}</strong></div>
-        <div class="mono">收縮壓：<strong>${rec?.sys ?? "-"}</strong></div>
-        <div class="mono">心跳：<strong>${rec?.hr ?? "-"}</strong></div>
-        <div><button class="ghost" data-load="${dateStr}">載入</button></div>
-      `;
-      row.querySelector("button[data-load]").addEventListener("click", () => {
-        switchDate(dateStr);
-        showToast("已載入該日 📌");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-      return row;
-    }
-
-    function getDatesBetweenInclusive(fromStr, toStr){
-      const out = [];
-      let cur = fromStr;
-      while (cur <= toStr){
-        out.push(cur);
-        cur = addDays(cur, 1);
-      }
-      return out;
-    }
-
-    function renderHistoryByDates(dates){
+    function renderWeekList(){
       const all = loadAll();
-      // 只顯示有紀錄的日期（但依日期順序）
-      const existing = dates.filter(d => all[d]);
-      clearHistoryRows();
+      const base = el.dateInput.value || toISODate(new Date());
 
-      if (existing.length === 0){
-        el.emptyText.style.display = "block";
-        el.emptyText.textContent = "這個區間尚無資料";
-        return;
+      const days = [];
+      for (let i=6; i>=0; i--) days.push(addDays(base, -i));
+
+      const diaArr=[], sysArr=[], hrArr=[];
+      let filled = 0;
+      let highDays = 0;
+
+      const rows = days.map(ds => {
+        const rec = all[ds];
+        const tagToday = isToday(ds) ? `<span class="badge">今天</span>` : "";
+        let tagHigh = "";
+
+        if (rec){
+          filled++;
+          if (Number.isFinite(rec.dia)) diaArr.push(rec.dia);
+          if (Number.isFinite(rec.sys)) sysArr.push(rec.sys);
+          if (Number.isFinite(rec.hr))  hrArr.push(rec.hr);
+
+          if (isHigh(rec)){
+            highDays++;
+            tagHigh = `<span class="badgeHigh">偏高</span>`;
+          }
+
+          const note = rec.note ? escapeHTML(rec.note) : "（無備註）";
+          return `
+            <div class="row" data-date="${ds}" role="button" aria-label="切換到 ${ds}">
+              <div class="dateCell">${fmtMD(ds)}${tagToday}${tagHigh}</div>
+              <div class="mainCell">
+                <div class="numbersLine">
+                  舒張 <b>${rec.dia ?? "-"}</b> ／ 收縮 <b>${rec.sys ?? "-"}</b> ／ 心跳 <b>${rec.hr ?? "-"}</b>
+                </div>
+                <div class="noteLine">${note}</div>
+              </div>
+            </div>
+          `;
+        }else{
+          return `
+            <div class="row" data-date="${ds}" role="button" aria-label="切換到 ${ds}">
+              <div class="dateCell">${fmtMD(ds)}${tagToday}</div>
+              <div class="mainCell">
+                <div class="numbersLine"><span style="color:var(--muted);">尚未填寫</span></div>
+                <div class="noteLine">點一下可開始輸入</div>
+              </div>
+            </div>
+          `;
+        }
+      }).join("");
+
+      // 統計
+      el.filledDays.textContent = String(filled);
+      el.rangeText.textContent = `範圍：${fmtMD(days[0])} ～ ${fmtMD(days[6])}`;
+
+      if (filled === 0){
+        el.avgText.textContent = "—";
+        el.hiLoText.textContent = "—";
+        el.highDaysText.textContent = "—";
+        el.highHint.textContent = `規則：收縮 ≥ ${HIGH_SYS} 或 舒張 ≥ ${HIGH_DIA}`;
+        el.weekList.innerHTML = `<div class="empty">最近 7 天都還沒有紀錄（先從今天開始輸入吧 🙂）</div>`;
+        el.highCard.style.borderColor = "var(--border)";
+      }else{
+        const aDia = avg(diaArr), aSys = avg(sysArr), aHr = avg(hrArr);
+        el.avgText.textContent = `舒張 ${aDia ?? "—"} ／ 收縮 ${aSys ?? "—"} ／ 心跳 ${aHr ?? "—"}`;
+
+        const mmDia = minmax(diaArr), mmSys = minmax(sysArr), mmHr = minmax(hrArr);
+        el.hiLoText.textContent =
+          `舒張 ${mmDia ? mmDia.max : "—"} / ${mmDia ? mmDia.min : "—"}・` +
+          `收縮 ${mmSys ? mmSys.max : "—"} / ${mmSys ? mmSys.min : "—"}・` +
+          `心跳 ${mmHr ? mmHr.max : "—"} / ${mmHr ? mmHr.min : "—"}`;
+
+        // ✅ 偏高天數顯示＋溫柔提醒
+        el.highDaysText.innerHTML = (highDays === 0)
+          ? `<span class="okText">0 天</span>`
+          : `<span class="warnText">${highDays} 天</span>`;
+
+        if (highDays === 0){
+          el.highHint.textContent = "本週目前都在安全範圍，繼續保持 🙂";
+          el.highCard.style.borderColor = "rgba(34,197,94,.35)";
+        }else if (highDays <= 2){
+          el.highHint.textContent = "有少數日子偏高：留意睡眠、情緒與鹽分，持續觀察即可。";
+          el.highCard.style.borderColor = "rgba(245,158,11,.35)";
+        }else{
+          el.highHint.textContent = "偏高日子較多：建議整理量測時段與生活作息，必要時可與醫師討論。";
+          el.highCard.style.borderColor = "rgba(245,158,11,.55)";
+        }
+
+        el.weekList.innerHTML = rows;
       }
-      el.emptyText.style.display = "none";
 
-      // 新到舊（長輩通常想先看最近）
-      existing.sort((a,b) => (a < b ? 1 : -1)).forEach(dateStr => {
-        el.historyList.appendChild(buildHistoryRow(dateStr, all[dateStr]));
+      // 點列切換日期
+      el.weekList.querySelectorAll(".row").forEach(r => {
+        r.addEventListener("click", () => {
+          const ds = r.getAttribute("data-date");
+          if (ds) switchDate(ds);
+        });
       });
     }
 
-    function setHint(text){ el.historyHint.textContent = text; }
-
-    function queryLastNDays(n){
-      const to = toISODate(new Date());
-      const from = addDays(to, -(n-1));
-      currentQuery = { mode: "range", from, to, label: `最近 ${n} 天` };
-
-      el.fromDate.value = from;
-      el.toDate.value = to;
-
-      setHint(`顯示：${from} ～ ${to}（${n} 天）`);
-      renderHistoryByDates(getDatesBetweenInclusive(from, to));
-    }
-
-    function queryRange(from, to){
-      if (!from || !to){
-        showToast("請選起日與迄日");
-        return;
-      }
-      if (from > to){
-        showToast("起日不可大於迄日");
-        return;
-      }
-      currentQuery = { mode:"range", from, to, label: "區間查詢" };
-      setHint(`顯示：${from} ～ ${to}`);
-      renderHistoryByDates(getDatesBetweenInclusive(from, to));
-    }
-
-    function refreshHistoryKeepCurrentQuery(){
-      if (currentQuery.mode === "range"){
-        renderHistoryByDates(getDatesBetweenInclusive(currentQuery.from, currentQuery.to));
-        return;
-      }
-      // fallback
-      queryLastNDays(7);
-    }
-
-    // --- 事件綁定 ---
+    // --- 綁定事件 ---
     el.diaRange.addEventListener("input", () => { refreshNumbers(); scheduleAutoSave(); });
     el.sysRange.addEventListener("input", () => { refreshNumbers(); scheduleAutoSave(); });
     el.hrRange.addEventListener("input",  () => { refreshNumbers(); scheduleAutoSave(); });
@@ -580,9 +582,9 @@
       deleteRecord(dateStr);
       applyToUI(null);
       setDirty(false);
+      renderWeekList();
       showToast("已清除當日 🧹");
       el.statusText.textContent = "當日已清除（回到預設值）";
-      refreshHistoryKeepCurrentQuery();
     });
 
     el.btnPrev.addEventListener("click", () => {
@@ -590,32 +592,30 @@
       if (!cur) return;
       switchDate(addDays(cur, -1));
     });
+
     el.btnNext.addEventListener("click", () => {
       const cur = el.dateInput.value;
       if (!cur) return;
       switchDate(addDays(cur, 1));
     });
-    el.btnToday.addEventListener("click", () => switchDate(toISODate(new Date())));
-    el.dateInput.addEventListener("change", () => { if (el.dateInput.value) switchDate(el.dateInput.value); });
 
-    // history buttons
-    el.btnLast7.addEventListener("click", () => queryLastNDays(7));
-    el.btnLast30.addEventListener("click", () => queryLastNDays(30));
-    el.btnQuery.addEventListener("click", () => queryRange(el.fromDate.value, el.toDate.value));
-    el.btnResetQuery.addEventListener("click", () => queryLastNDays(7));
+    el.btnToday.addEventListener("click", () => switchDate(toISODate(new Date())));
+
+    el.dateInput.addEventListener("change", () => {
+      if (!el.dateInput.value) return;
+      switchDate(el.dateInput.value);
+    });
 
     // --- 初始啟動 ---
     (function init(){
       const today = toISODate(new Date());
       el.dateInput.value = today;
 
-      const rec = getRecord(today);
-      applyToUI(rec);
-      el.statusText.textContent = rec ? "已載入今日紀錄" : "今天尚未有紀錄（可直接輸入）";
+      applyToUI(getRecord(today));
+      el.statusText.textContent = getRecord(today) ? "已載入今日紀錄" : "今天尚未有紀錄（可直接輸入）";
       setDirty(false);
 
-      // 預設歷史：最近 7 天
-      queryLastNDays(7);
+      renderWeekList();
     })();
   </script>
 </body>
