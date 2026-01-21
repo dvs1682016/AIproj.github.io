@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>安心日常記錄（示範版）</title>
+  <meta name="theme-color" content="#111827" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#f9fafb;
+      --accent:#22c55e;
+      --accent2:#60a5fa;
+      --danger:#ef4444;
+      --border:rgba(255,255,255,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 30% -10%, rgba(96,165,250,.18), transparent 60%),
+                  radial-gradient(900px 700px at 90% 10%, rgba(34,197,94,.16), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      padding:18px;
+    }
+    .wrap{max-width:860px;margin:0 auto}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:14px;
+    }
+    h1{font-size:22px;margin:0;letter-spacing:.5px}
+    .sub{font-size:13px;color:var(--muted);margin-top:4px}
+    .pill{
+      font-size:12px;color:var(--muted);
+      border:1px solid var(--border);
+      padding:6px 10px;border-radius:999px;
+      background:rgba(255,255,255,.03);
+      white-space:nowrap;
+    }
+    .card{
+      border:1px solid var(--border);
+      background:rgba(17,24,39,.92);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.28);
+      margin-bottom:14px;
+    }
+
+    .dateRow{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      align-items:center;
+    }
+    .dateControls{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    }
+    .btnRow{display:flex;gap:10px;flex-wrap:wrap}
+    button{
+      appearance:none;border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:12px 14px;border-radius:12px;
+      font-size:16px;
+      cursor:pointer;
+      min-height:48px;
+    }
+    button:active{transform:scale(.99)}
+    button.primary{
+      border-color: rgba(34,197,94,.45);
+      background: rgba(34,197,94,.16);
+    }
+    button.ghost{
+      border-color: rgba(96,165,250,.45);
+      background: rgba(96,165,250,.14);
+    }
+    button.danger{
+      border-color: rgba(239,68,68,.5);
+      background: rgba(239,68,68,.14);
+    }
+
+    .dateBox{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    }
+    input[type="date"]{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:16px;
+      min-height:48px;
+    }
+    .hint{color:var(--muted);font-size:13px;line-height:1.5}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media (min-width: 720px){
+      .grid{grid-template-columns: 1fr 1fr}
+    }
+
+    .metric{
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+    .metric h2{
+      margin:0 0 8px 0;
+      font-size:18px;
+      display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    }
+    .value{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    .unit{font-size:13px;color:var(--muted);font-weight:600;margin-left:6px}
+    .rangeRow{display:flex;align-items:center;gap:10px;margin-top:8px}
+    .minmax{font-size:12px;color:var(--muted);min-width:70px;text-align:center}
+    input[type="range"]{
+      width:100%;
+      height:26px;
+      accent-color: var(--accent2);
+    }
+
+    textarea{
+      width:100%;
+      min-height:110px;
+      resize:vertical;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:16px;
+      line-height:1.6;
+      outline:none;
+    }
+    textarea::placeholder{color:rgba(156,163,175,.75)}
+    .footerRow{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between
+    }
+    .status{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%; bottom:18px;
+      transform:translateX(-50%);
+      background: rgba(17,24,39,.95);
+      border:1px solid var(--border);
+      padding:10px 12px;
+      border-radius:999px;
+      color:var(--text);
+      font-size:14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>安心日常記錄（示範版）</h1>
+        <div class="sub">手機友善・單一 HTML・自動儲存（本機）</div>
+      </div>
+      <div class="pill" id="storagePill">儲存：本機（localStorage）</div>
+    </header>
+
+    <section class="card">
+      <div class="dateRow">
+        <div class="dateControls">
+          <div class="dateBox">
+            <strong style="font-size:16px;">日期</strong>
+            <input id="dateInput" type="date" />
+            <button class="ghost" id="btnToday">今天</button>
+          </div>
+
+          <div class="btnRow">
+            <button id="btnPrev">前一天</button>
+            <button id="btnNext">後一天</button>
+          </div>
+        </div>
+        <div class="hint">
+          小提醒：這個版本會把資料存在手機本機（不需登入）。你換手機就會消失——之後我們再升級成 IndexedDB / 雲端版。
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="grid">
+        <div class="metric">
+          <h2>
+            <span>舒張壓</span>
+            <span class="value"><span id="diaVal">120</span><span class="unit">mmHg</span></span>
+          </h2>
+          <div class="rangeRow">
+            <div class="minmax">40</div>
+            <input id="diaRange" type="range" min="40" max="140" step="1" value="120" />
+            <div class="minmax">140</div>
+          </div>
+          <div class="hint">滑桿往右變大、往左變小（預設 120）</div>
+        </div>
+
+        <div class="metric">
+          <h2>
+            <span>收縮壓</span>
+            <span class="value"><span id="sysVal">70</span><span class="unit">mmHg</span></span>
+          </h2>
+          <div class="rangeRow">
+            <div class="minmax">70</div>
+            <input id="sysRange" type="range" min="70" max="220" step="1" value="70" />
+            <div class="minmax">220</div>
+          </div>
+          <div class="hint">依你先前設定：預設 70（之後也可一鍵改成 120）</div>
+        </div>
+
+        <div class="metric">
+          <h2>
+            <span>心跳</span>
+            <span class="value"><span id="hrVal">70</span><span class="unit">次/分</span></span>
+          </h2>
+          <div class="rangeRow">
+            <div class="minmax">40</div>
+            <input id="hrRange" type="range" min="40" max="140" step="1" value="70" />
+            <div class="minmax">140</div>
+          </div>
+          <div class="hint">預設 70</div>
+        </div>
+
+        <div class="metric">
+          <h2 style="margin-bottom:10px;">備註（用藥／感覺）</h2>
+          <textarea id="noteInput" placeholder="例如：早上飯後吃藥、頭暈、睡得不錯、走路 30 分鐘…"></textarea>
+          <div class="hint" style="margin-top:8px;">打字後會自動儲存（不用按很多次）。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="footerRow">
+        <div class="btnRow">
+          <button class="primary" id="btnSave">立即儲存</button>
+          <button class="danger" id="btnClearDay">清除當日</button>
+        </div>
+        <div class="status" id="statusText">尚未儲存</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">已儲存 ✅</div>
+
+  <script>
+    /********************
+     *  安心日常記錄（示範版）
+     *  MVP：日期切換 + 三滑桿 + 備註 + 本機儲存
+     *  儲存方式：localStorage（之後可升級 IndexedDB）
+     ********************/
+
+    const STORAGE_KEY = "anxin_daily_records_v1";
+
+    // 預設值（依你之前的描述）
+    const DEFAULTS = {
+      dia: 120, // 舒張壓（你先前指定 120）
+      sys: 70,  // 收縮壓（你先前指定 70）
+      hr: 70,
+      note: ""
+    };
+
+    const el = {
+      dateInput: document.getElementById("dateInput"),
+      btnPrev: document.getElementById("btnPrev"),
+      btnNext: document.getElementById("btnNext"),
+      btnToday: document.getElementById("btnToday"),
+      btnSave: document.getElementById("btnSave"),
+      btnClearDay: document.getElementById("btnClearDay"),
+
+      diaRange: document.getElementById("diaRange"),
+      sysRange: document.getElementById("sysRange"),
+      hrRange: document.getElementById("hrRange"),
+      noteInput: document.getElementById("noteInput"),
+
+      diaVal: document.getElementById("diaVal"),
+      sysVal: document.getElementById("sysVal"),
+      hrVal: document.getElementById("hrVal"),
+
+      statusText: document.getElementById("statusText"),
+      toast: document.getElementById("toast"),
+    };
+
+    let saveTimer = null;
+    let dirty = false;
+
+    function pad2(n){ return String(n).padStart(2, "0"); }
+
+    function toISODate(d){
+      return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    }
+
+    function fromISODate(s){
+      const [y,m,dd] = s.split("-").map(Number);
+      return new Date(y, m-1, dd);
+    }
+
+    function addDays(isoDateStr, delta){
+      const d = fromISODate(isoDateStr);
+      d.setDate(d.getDate() + delta);
+      return toISODate(d);
+    }
+
+    function loadAll(){
+      try{
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      }catch{
+        return {};
+      }
+    }
+
+    function saveAll(obj){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+    }
+
+    function getRecord(dateStr){
+      const all = loadAll();
+      return all[dateStr] || null;
+    }
+
+    function setRecord(dateStr, record){
+      const all = loadAll();
+      all[dateStr] = record;
+      saveAll(all);
+    }
+
+    function deleteRecord(dateStr){
+      const all = loadAll();
+      delete all[dateStr];
+      saveAll(all);
+    }
+
+    function setDirty(flag){
+      dirty = flag;
+      el.statusText.textContent = flag ? "尚未儲存（會自動儲存）" : "已儲存";
+    }
+
+    function showToast(text="已儲存 ✅"){
+      el.toast.textContent = text;
+      el.toast.classList.add("show");
+      setTimeout(()=> el.toast.classList.remove("show"), 900);
+    }
+
+    function applyToUI(record){
+      const r = record || DEFAULTS;
+
+      el.diaRange.value = r.dia ?? DEFAULTS.dia;
+      el.sysRange.value = r.sys ?? DEFAULTS.sys;
+      el.hrRange.value  = r.hr  ?? DEFAULTS.hr;
+      el.noteInput.value = r.note ?? DEFAULTS.note;
+
+      refreshNumbers();
+    }
+
+    function readFromUI(){
+      return {
+        dia: Number(el.diaRange.value),
+        sys: Number(el.sysRange.value),
+        hr: Number(el.hrRange.value),
+        note: String(el.noteInput.value || "").trim(),
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function refreshNumbers(){
+      el.diaVal.textContent = el.diaRange.value;
+      el.sysVal.textContent = el.sysRange.value;
+      el.hrVal.textContent  = el.hrRange.value;
+    }
+
+    function scheduleAutoSave(){
+      setDirty(true);
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveNow(true);
+      }, 500);
+    }
+
+    function saveNow(isAuto=false){
+      const dateStr = el.dateInput.value;
+      if (!dateStr) return;
+
+      const record = readFromUI();
+      setRecord(dateStr, record);
+      setDirty(false);
+
+      if (isAuto) showToast("自動儲存 ✅");
+      else showToast("已儲存 ✅");
+    }
+
+    function switchDate(newDateStr){
+      // 先把未儲存的也存起來（避免切日期資料不見）
+      if (dirty) saveNow(true);
+
+      el.dateInput.value = newDateStr;
+
+      const rec = getRecord(newDateStr);
+      applyToUI(rec);
+      setDirty(false);
+
+      el.statusText.textContent = rec ? "已載入（可直接修改）" : "新的一天（尚未有紀錄）";
+    }
+
+    // --- 綁定事件 ---
+    el.diaRange.addEventListener("input", () => { refreshNumbers(); scheduleAutoSave(); });
+    el.sysRange.addEventListener("input", () => { refreshNumbers(); scheduleAutoSave(); });
+    el.hrRange.addEventListener("input",  () => { refreshNumbers(); scheduleAutoSave(); });
+    el.noteInput.addEventListener("input", () => scheduleAutoSave());
+
+    el.btnSave.addEventListener("click", () => saveNow(false));
+
+    el.btnClearDay.addEventListener("click", () => {
+      const dateStr = el.dateInput.value;
+      if (!dateStr) return;
+
+      // 先清除資料，再恢復預設值
+      deleteRecord(dateStr);
+      applyToUI(null);
+      setDirty(false);
+      showToast("已清除當日 🧹");
+      el.statusText.textContent = "當日已清除（回到預設值）";
+    });
+
+    el.btnPrev.addEventListener("click", () => {
+      const cur = el.dateInput.value;
+      if (!cur) return;
+      switchDate(addDays(cur, -1));
+    });
+
+    el.btnNext.addEventListener("click", () => {
+      const cur = el.dateInput.value;
+      if (!cur) return;
+      switchDate(addDays(cur, 1));
+    });
+
+    el.btnToday.addEventListener("click", () => {
+      switchDate(toISODate(new Date()));
+    });
+
+    el.dateInput.addEventListener("change", () => {
+      if (!el.dateInput.value) return;
+      switchDate(el.dateInput.value);
+    });
+
+    // --- 初始啟動 ---
+    (function init(){
+      const today = toISODate(new Date());
+      el.dateInput.value = today;
+
+      const rec = getRecord(today);
+      applyToUI(rec);
+      el.statusText.textContent = rec ? "已載入今日紀錄" : "今天尚未有紀錄（可直接輸入）";
+      setDirty(false);
+
+      // iOS 有時會把 date 文字顯示成英文，這裡無需處理（功能正常）
+    })();
+  </script>
+</body>
+</html>
